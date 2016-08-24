@@ -32,5 +32,22 @@ class iTunesSearchTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-    
+	
+	func testFetchArtistDataShouldReturnListOfSongs() {
+		
+		let expectation = expectationWithDescription("Wait for artistByName() to return")
+		APIService.artistByName("Pendulum", success: { (data) in
+			expectation.fulfill()
+			XCTAssertNotNil(data, "Songs array should not be nil")
+			XCTAssertGreaterThan(data.count, 0, "Songs count should be greater than 0")
+			}) { (error) in
+				expectation.fulfill()
+				XCTAssertNil(error, "Error should be nil")
+		}
+		
+		self.waitForExpectationsWithTimeout(2.0, handler: { error in
+			XCTAssertNil(error, "Something went wrong")
+		})
+	}
+	
 }
