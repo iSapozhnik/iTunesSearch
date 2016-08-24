@@ -12,7 +12,7 @@ import Alamofire
 let baseURLString = "https://itunes.apple.com/"
 
 enum AppRouter: URLRequestConvertible {
-	case Artist(String)
+	case Artist([String:String])
 	
 	var method: Alamofire.Method {
 		switch self {
@@ -23,8 +23,9 @@ enum AppRouter: URLRequestConvertible {
 	
 	var path: String {
 		switch self {
-		case .Artist(let artistName):
-			return baseURLString+"search?term=\(artistName)".stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet())!
+		case .Artist(_):
+			// stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet()
+			return baseURLString+"search"
 		}
 	}
 	
@@ -33,8 +34,8 @@ enum AppRouter: URLRequestConvertible {
 		mutableURLRequest.HTTPMethod = method.rawValue
 		
 		switch self {
-		case .Artist(_):
-			return Alamofire.ParameterEncoding.URL.encode(mutableURLRequest, parameters: nil).0
+		case .Artist(let params):
+			return Alamofire.ParameterEncoding.URL.encode(mutableURLRequest, parameters: params).0
 		}
 	}
 }

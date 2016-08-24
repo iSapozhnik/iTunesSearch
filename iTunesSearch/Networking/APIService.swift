@@ -13,7 +13,9 @@ import AlamofireObjectMapper
 class APIService {
 	static func artistByName(name: String, success: (data: [Artist]) -> (), failure: (error: NSError) -> ()) {
 		
-		Alamofire.request(AppRouter.Artist(name)).responseArray(keyPath: "results") { (response: Response<[Artist], NSError>) in
+		let params = ["term":name]
+		
+		Alamofire.request(AppRouter.Artist(params)).responseArray(keyPath: "results") { (response: Response<[Artist], NSError>) in
 			switch response.result {
 			case .Success(let value):
 				let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
