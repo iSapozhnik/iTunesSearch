@@ -34,7 +34,7 @@ enum AppRouter: URLRequestConvertible {
 		
 		switch self {
 		case .Artist(_):
-			return Alamofire.ParameterEncoding.JSON.encode(mutableURLRequest, parameters: nil).0
+			return Alamofire.ParameterEncoding.URL.encode(mutableURLRequest, parameters: nil).0
 		}
 	}
 }
